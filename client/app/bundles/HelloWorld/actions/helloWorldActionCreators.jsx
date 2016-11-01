@@ -6,3 +6,10 @@ export function updateName(name) {
     name,
   };
 }
+
+export function updateStats(stats) {
+  return {
+    type: actionTypes.STATS_UPDATE,
+    stats: stats,
+  }
+}

@@ -1,10 +1,12 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import HelloWorldWidget from '../components/HelloWorldWidget';
+import LiveCounter from '../components/LiveCounter';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
 import * as helloWorldActionCreators from '../actions/helloWorldActionCreators';
 
+// This is also referred to as mapStateToProps in some examples.
 function select(state) {
   // Which part of the Redux global state does our component want to receive as props?
   // Note the use of `$$` to prefix the property name because the value is of type Immutable.js
@@ -12,19 +14,52 @@ function select(state) {
 }
 
 // Simple example of a React "smart" component
-const HelloWorld = (props) => {
-  const { dispatch, $$helloWorldStore } = props;
-  const actions = bindActionCreators(helloWorldActionCreators, dispatch);
-  const { updateName } = actions;
-  const name = $$helloWorldStore.get('name');
+// Modified from the original example because we need to access lifecycle methods.
+class HelloWorld extends Component {
 
-  // This uses the ES2015 spread operator to pass properties as it is more DRY
-  // This is equivalent to:
-  // <HelloWorldWidget $$helloWorldStore={$$helloWorldStore} actions={actions} />
-  return (
-    <HelloWorldWidget {...{ updateName, name }} />
-  );
-};
+  //We need this lifecycle method to subscribe to actioncable events.
+  componentWillMount() {
+    console.log('subscribing to actioncable events...');
+    const actions = bindActionCreators(helloWorldActionCreators, this.props.dispatch);
+    const { updateStats } = actions;
+    App.cable.subscriptions.create({ channel: "StatsChannel" }, {
+      received: (data) => {
+        updateStats(Immutable.Map(data));
+      }
+    });
+  }
+
+  //Unsubscribe from actioncable here...
+  componentWillUnmount() {
+    console.log('unsubscribing from actioncable events...');
+    App.cable.subscriptions.remove({ channel: "StatsChannel" });
+  }
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { dispatch, $$helloWorldStore } = this.props;
+    const actions = bindActionCreators(helloWorldActionCreators, dispatch);
+    const { updateName } = actions;
+    const name = $$helloWorldStore.get('name');
+    const stats = $$helloWorldStore.get('stats');
+
+    // This uses the ES2015 spread operator to pass properties as it is more DRY
+    // This is equivalent to:
+    // <HelloWorldWidget $$helloWorldStore={$$helloWorldStore} actions={actions} />
+    return (
+      <div>
+        <HelloWorldWidget {...{ updateName, name }} />
+        <hr/>
+        <LiveCounter {...{count:stats.get('apples'), label:'Apples' }} />
+        <hr/>
+        <LiveCounter {...{count:stats.get('oranges'), label:'Oranges' }} />
+      </div>
+      );
+  }
+}
 
 HelloWorld.propTypes = {
   dispatch: PropTypes.func.isRequired,
