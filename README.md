@@ -26,5 +26,5 @@ The react component subscribes to messages brodcast on an [ActionCable](http://e
    curl localhost:3000/decr?stat=apples
  * Watch the count of apples and oranges change.
 
-* Exactly what changes did I make after generating the vanilla hello_world app?
-  Simply check the diff from the last commit.
+* Code Changes:
+Just check [the relevant commit](https://github.com/paneer-tikka/react_actioncable_counter/commit/299155b7277bab5dce1c6405f8ca45b78f5176c7)
