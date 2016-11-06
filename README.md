@@ -1,7 +1,7 @@
 # README
 
-This is a sample app that uses react_on_rails to create a simple counter react component.
-The react component subscribes to messages brodcast on an actioncable channel and updates the count on screen in real-time.
+This is a sample app that uses [react_on_rails](https://github.com/shakacode/react_on_rails) to create a simple real-time counter.
+The react component subscribes to messages brodcast on an [ActionCable](http://edgeguides.rubyonrails.org/action_cable_overview.html) channel and updates the count on screen in real-time.
 
 * Rails version
 5
@@ -10,8 +10,8 @@ The react component subscribes to messages brodcast on an actioncable channel an
 2.3.1
 
 * Background reading:
- * [React on rails|https://github.com/shakacode/react_on_rails/#getting-started]
- * [ActionCable|http://edgeguides.rubyonrails.org/action_cable_overview.html]
+ * [React on rails](https://github.com/shakacode/react_on_rails/#getting-started)
+ * [ActionCable](http://edgeguides.rubyonrails.org/action_cable_overview.html)
 
 * To run:
  * foreman start -f Procfile.dev
