@@ -28,3 +28,6 @@ The react component subscribes to messages brodcast on an [ActionCable](http://e
 
 * Code Changes:
 Just check [the relevant commit](https://github.com/paneer-tikka/react_actioncable_counter/commit/299155b7277bab5dce1c6405f8ca45b78f5176c7)
+
+## Note:
+This is just a sample of how you can connect a actioncable broadcast to a react_on_rails component. This is not production ready. Especially note that the actioncable does not use any kind of authentication.
