@@ -14,6 +14,8 @@ The react component subscribes to messages brodcast on an [ActionCable](http://e
  * [ActionCable](http://edgeguides.rubyonrails.org/action_cable_overview.html)
 
 * To run:
+ * bundle install
+ * npm install
  * foreman start -f Procfile.dev
  * Open localhost:3000/hello_world in multiple browser windows.
  * On a shell promp, run:
