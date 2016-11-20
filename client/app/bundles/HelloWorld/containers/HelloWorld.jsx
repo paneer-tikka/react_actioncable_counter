@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
 import * as helloWorldActionCreators from '../actions/helloWorldActionCreators';
+import ActionCable from 'actioncable'
 
 // This is also referred to as mapStateToProps in some examples.
 function select(state) {
@@ -22,7 +23,8 @@ class HelloWorld extends Component {
     console.log('subscribing to actioncable events...');
     const actions = bindActionCreators(helloWorldActionCreators, this.props.dispatch);
     const { updateStats } = actions;
-    App.cable.subscriptions.create({ channel: "StatsChannel" }, {
+    const cable = ActionCable.createConsumer('ws://localhost:3000/cable')
+    cable.subscriptions.create({ channel: "StatsChannel" }, {
       received: (data) => {
         updateStats(Immutable.Map(data));
       }
